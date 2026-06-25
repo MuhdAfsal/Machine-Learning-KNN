@@ -1,0 +1,122 @@
+============================================================
+STEP 1: Loading data
+============================================================
+Original shape: (159541, 89)
+Columns: ['UID', 'Name', 'NationID', 'Born', 'Age', 'IntCaps', 'IntGoals', 'U21Caps', 'U21Goals', 'Height', 'Weight', 'AerialAbility', 'CommandOfArea', 'Communication', 'Eccentricity', 'Handling', 'Kicking', 'OneOnOnes', 'Reflexes', 'RushingOut', 'TendencyToPunch', 'Throwing', 'Corners', 'Crossing', 'Dribbling', 'Finishing', 'FirstTouch', 'Freekicks', 'Heading', 'LongShots', 'Longthrows', 'Marking', 'Passing', 'PenaltyTaking', 'Tackling', 'Technique', 'Aggression', 'Anticipation', 'Bravery', 'Composure', 'Concentration', 'Vision', 'Decisions', 'Determination', 'Flair', 'Leadership', 'OffTheBall', 'Positioning', 'Teamwork', 'Workrate', 'Acceleration', 'Agility', 'Balance', 'Jumping', 'LeftFoot', 'NaturalFitness', 'Pace', 'RightFoot', 'Stamina', 'Strength', 'Consistency', 'Dirtiness', 'ImportantMatches', 'InjuryProness', 'Versatility', 'Adaptability', 'Ambition', 'Loyalty', 'Pressure', 'Professional', 'Sportsmanship', 'Temperament', 'Controversy', 'PositionsDesc', 'Goalkeeper', 'Sweeper', 'Striker', 'AttackingMidCentral', 'AttackingMidLeft', 'AttackingMidRight', 'DefenderCentral', 'DefenderLeft', 'DefenderRight', 'DefensiveMidfielder', 'MidfielderCentral', 'MidfielderLeft', 'MidfielderRight', 'WingBackLeft', 'WingBackRight']
+
+============================================================
+STEP 2: Dropping identifier/irrelevant columns
+============================================================
+Dropped: ['UID', 'Name', 'NationID', 'PositionsDesc']
+Shape after drop: (159541, 85)
+
+============================================================
+STEP 3: Engineering target label — Primary Position
+============================================================
+Position label distribution:
+PrimaryPosition
+DefenderCentral        27218
+Striker                26616
+MidfielderCentral      18217
+Goalkeeper             17130
+AttackingMidCentral    11668
+DefensiveMidfielder    11357
+DefenderRight          11145
+DefenderLeft           10535
+AttackingMidRight       8010
+AttackingMidLeft        7584
+MidfielderRight         4474
+MidfielderLeft          4246
+WingBackLeft             661
+WingBackRight            426
+Sweeper                  254
+Name: count, dtype: int64
+
+Classes: ['AttackingMidCentral', 'AttackingMidLeft', 'AttackingMidRight', 'DefenderCentral', 'DefenderLeft', 'DefenderRight', 'DefensiveMidfielder', 'Goalkeeper', 'MidfielderCentral', 'MidfielderLeft', 'MidfielderRight', 'Striker', 'Sweeper', 'WingBackLeft', 'WingBackRight']
+Encoded values: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+
+============================================================
+STEP 4: Handling missing values
+============================================================
+Missing values before treatment:
+Series([], dtype: int64)
+Missing values after treatment: 0 
+
+============================================================
+STEP 5: Encoding date/string columns
+============================================================
+'Born' → 'BirthYear' (integer year extracted)
+Remaining object columns: ['PrimaryPosition']
+
+============================================================
+STEP 6: Selecting features
+============================================================
+Number of features selected: 70
+Features: ['Age', 'IntCaps', 'IntGoals', 'U21Caps', 'U21Goals', 'Height', 'Weight', 'AerialAbility', 'CommandOfArea', 'Communication', 'Eccentricity', 'Handling', 'Kicking', 'OneOnOnes', 'Reflexes', 'RushingOut', 'TendencyToPunch', 'Throwing', 'Corners', 'Crossing', 'Dribbling', 'Finishing', 'FirstTouch', 'Freekicks', 'Heading', 'LongShots', 'Longthrows', 'Marking', 'Passing', 'PenaltyTaking', 'Tackling', 'Technique', 'Aggression', 'Anticipation', 'Bravery', 'Composure', 'Concentration', 'Vision', 'Decisions', 'Determination', 'Flair', 'Leadership', 'OffTheBall', 'Positioning', 'Teamwork', 'Workrate', 'Acceleration', 'Agility', 'Balance', 'Jumping', 'LeftFoot', 'NaturalFitness', 'Pace', 'RightFoot', 'Stamina', 'Strength', 'Consistency', 'Dirtiness', 'ImportantMatches', 'InjuryProness', 'Versatility', 'Adaptability', 'Ambition', 'Loyalty', 'Pressure', 'Professional', 'Sportsmanship', 'Temperament', 'Controversy', 'BirthYear']
+
+X shape: (159541, 70)
+y shape: (159541,)
+
+============================================================
+STEP 7: Train-test split (80/20, stratified)
+============================================================
+Train samples: 127632
+Test  samples: 31909
+
+============================================================
+STEP 8: Scaling features (StandardScaler)
+============================================================
+Scaling complete.
+Train mean (first 5 features): [-0. -0.  0. -0.  0.]
+Train std  (first 5 features): [1. 1. 1. 1. 1.]
+
+============================================================
+STEP 9: Optional PCA (retaining 95% variance)
+============================================================
+Components before PCA : 70
+Components after  PCA : 51
+Variance retained     : 0.9524
+
+============================================================
+STEP 10: Final preprocessed arrays
+============================================================
+X_train_scaled  (no PCA) : (127632, 70)
+X_test_scaled   (no PCA) : (31909, 70)
+X_train_pca     (PCA)    : (127632, 51)
+X_test_pca      (PCA)    : (31909, 51)
+y_train                  : (127632,)
+y_test                   : (31909,)
+Classes                  : ['AttackingMidCentral', 'AttackingMidLeft', 'AttackingMidRight', 'DefenderCentral', 'DefenderLeft', 'DefenderRight', 'DefensiveMidfielder', 'Goalkeeper', 'MidfielderCentral', 'MidfielderLeft', 'MidfielderRight', 'Striker', 'Sweeper', 'WingBackLeft', 'WingBackRight']
+
+============================================================
+BONUS: Quick KNN fit on PCA-reduced data
+============================================================
+Using k = 357
+
+Accuracy: 0.7028
+
+Classification Report:
+                     precision    recall  f1-score   support
+
+AttackingMidCentral       0.54      0.33      0.41      2334
+   AttackingMidLeft       0.47      0.43      0.45      1517
+  AttackingMidRight       0.43      0.46      0.44      1602
+    DefenderCentral       0.79      0.92      0.85      5444
+       DefenderLeft       0.65      0.84      0.73      2107
+      DefenderRight       0.71      0.66      0.69      2229
+DefensiveMidfielder       0.66      0.32      0.43      2271
+         Goalkeeper       1.00      1.00      1.00      3426
+  MidfielderCentral       0.57      0.71      0.63      3644
+     MidfielderLeft       0.62      0.22      0.32       849
+    MidfielderRight       0.59      0.11      0.18       895
+            Striker       0.75      0.94      0.83      5323
+            Sweeper       0.00      0.00      0.00        51
+       WingBackLeft       0.00      0.00      0.00       132
+      WingBackRight       0.00      0.00      0.00        85
+
+           accuracy                           0.70     31909
+          macro avg       0.52      0.46      0.46     31909
+       weighted avg       0.69      0.70      0.68     31909
+
+
+Preprocessed arrays saved as .npy files.
